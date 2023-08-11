@@ -5,6 +5,7 @@ using Ancient_Elephant.Classes;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq.Expressions;
+using System.Collections.Immutable;
 
 class Program
 {
@@ -20,7 +21,7 @@ class Program
         Console.WriteLine("===============================================\n\n");
 
         Console.BackgroundColor = ConsoleColor.Black;
-        Console.WriteLine("For a list of commands, use '--help'");
+        Console.WriteLine("For a list of commands, type 'help'");
 
         const string defaultFilePath = "C:\\Users\\User1\\Documents\\THE DUMP";
 
@@ -38,62 +39,83 @@ class Program
 
             string cmdArg = Console.ReadLine();
 
-            //            if (!String.IsNullOrEmpty(cmdArg))
-            //            {
-            //                string[] cmdInput = cmdArg.Split(' ');
-            //                switch (cmdInput[0])
-            //                {
-            //                    case "ProcFile":
-            //                        if(cmdInput.Length == 3)
-            //                        {
-            //                            string fileName = cmdInput[1];
-            //                            string actionOnFile = cmdInput[2];
+            //---------------------------CORE LOGIC OF LOOP (below)-------------------------------------------------
 
-            //                            string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", fileName);
+            if (!String.IsNullOrEmpty(cmdArg))
+            {
+                string[] cmdInput = cmdArg.Split(' ');
+                switch (cmdInput[0])
+                {
+                    case "ProcFile":
+                        if (cmdInput.Length == 3)
+                        {
+                            string fileName = cmdInput[1];
+                            string actionOnFile = cmdInput[2];
 
-            //                            switch (actionOnFile)
-            //                            {
-            ////                                case "-read":
-            ////                                    Commands.PrintFileProcesses(fullPath);
-            ////                                    break;
+                            string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", fileName);
 
-            ////                                case "-launch":
-            ////.                                   Commands.LaunchFileProcesses(fullPath);
-            ////                                    break;
+                            switch (actionOnFile)
+                            {
+                                //                                case "-read":
+                                //                                    Commands.PrintFileProcesses(fullPath);
+                                //                                    break;
 
-
-            //                                case "-read":
-            //                                    Commands.PrintFileProcesses(fullPath);
-            //                                    break;
-            //                                case "-launch":
-            //                                    Commands.LaunchFileProcesses(fullPath);
-            //                                    break;
-            //                            }
+                                //                                case "-launch":
+                                //.                                   Commands.LaunchFileProcesses(fullPath);
+                                //                                    break;
 
 
+                                case "-read":
+                                    Commands.PrintFileProcesses(fullPath);
+                                    break;
+                                case "-launch":
+                                    Commands.LaunchFileProcesses(fullPath);
+                                    break;
+                            }
 
-            //                        }
-            //                        else if(cmdInput.Length == 2)
-            //                        {
-            //                            string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", cmdInput[1]);
-            //                            Commands.PrintFileProcesses(fullPath);
-            //                        }
-            //                        else
-            //                        {
-            //                            Console.WriteLine("Command not recognized.");
-            //                        }
-            //                        break;
-            //                    case "":
-            //                        // code block
-            //                        break;
-            //                    default:
-            //                        Console.WriteLine($"No command recognized. For a list of commands, type '--help'");
-            //                        break;
-            //                }
-            //            }
+
+
+                        }
+                        else if (cmdInput.Length == 2)
+                        {
+                            string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", cmdInput[1]);
+                            Commands.PrintFileProcesses(fullPath);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Command not recognized.");
+                        }
+                        break;
+                    case "help":
+                        // code block
+                        Commands.HelpCommand();
+                        break;
+                    default:
+                        Console.WriteLine($"No command recognized. For a list of commands, type '--help'");
+                        break;
+                }
+            }
+
+            //---------------------------CORE LOGIC OF LOOP (above)-------------------------------------------------
+
+
+            //const List<LocalExecutable> k = new List<LocalExecutable>();
+            //const Process process = new Process();
+            //Process[] pk = new Process[1];
+            //pk.ToImmutableArray();
+
+
+            //process.StartInfo.FileName = "C:\\Users\\User1\\Downloads\\winmine";
+            //process.Start();
+            //var info = process.HasExited;
+            //var j = process.StartTime;
+
+            //Console.WriteLine($"Has exited: {info}");
+            //Console.WriteLine($"Start time: {j}");
+
 
             //Might want to stick with using "ProcessStartInfo" (it's much more potent).
-            ProcessStartInfo st = new ProcessStartInfo();
+            //ProcessStartInfo st = new ProcessStartInfo();
             //st.UseShellExecute = false; //If this is set to false, you must use the full path (aka "C:\Users\User1\Downloads\\winmine")
             ////instead of "winmine" when inserting it in "Process.Start() as the parameter.
             //st.WorkingDirectory = "C:\\Users\\User1\\Downloads\\";
@@ -112,22 +134,6 @@ class Program
             //st.WindowStyle = ProcessWindowStyle.Maximized;
 
             //---
-
-            st.UseShellExecute = true; //If this is set to false, you must use the full path (aka "C:\Users\User1\Downloads\\winmine")
-                                       //instead of "winmine" when inserting it in "Process.Start() as the parameter.
-
-            st.FileName = "Powershell";
-            //st.Arguments = "cd \"C:\\Users\\User1\\Documents\\Personal Projects\\Tutorials\"";
-            st.ArgumentList.Add("dir");
-
-
-            st.WindowStyle = ProcessWindowStyle.Normal;
-
-
-
-
-
-            Process.Start(st);
 
         }
 

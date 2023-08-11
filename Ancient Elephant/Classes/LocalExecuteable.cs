@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
+using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
+
 namespace Ancient_Elephant.Classes
 {
     public class LocalExecutable
@@ -106,6 +109,7 @@ namespace Ancient_Elephant.Classes
         public static void LaunchLocalExecutables(List<LocalExecutable> executables)
         {
             ProcessStartInfo st = null;
+
             foreach (var exe in executables)
             {
                 st = new ProcessStartInfo();
@@ -113,6 +117,10 @@ namespace Ancient_Elephant.Classes
                 st.WorkingDirectory = exe.FullPath;
                 st.FileName = exe.FileName;
                 Process.Start(exe.fileName, exe.FullPath);
+
+      
+
+         
 
             }
         }

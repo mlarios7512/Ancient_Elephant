@@ -24,10 +24,30 @@ namespace Ancient_Elephant.Classes
             LocalExecutable.LaunchLocalExecutables(exeList);
         }
 
-        //public static void PrintAllCommands() 
-        //{
+        public static void HelpCommand()
+        {
 
-        //}
+            //----------------------------------------------------
+            Console.WriteLine("\nText color key: \n" +
+                "Yellow --> Command\n" +
+                "White --> Normal text" +
+                "\n\n\n");
+
+            //----------------------------------------------------
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("launch [csv file]");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Start processes from a CSV file. Files MUST be in CSV format.\n");
+
+            //----------------------------------------------------
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("clear");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Clears the console.\n");
+
+            //END OF COMMANDS LISTING---------------------
+            Console.WriteLine("\n");
+        }
 
     }
 }
