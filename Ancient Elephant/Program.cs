@@ -46,44 +46,13 @@ class Program
                 string[] cmdInput = cmdArg.Split(' ');
                 switch (cmdInput[0])
                 {
-                    case "ProcFile":
-                        if (cmdInput.Length == 3)
+                    case "launch":
+                        if (cmdInput.Length == 2)
                         {
                             string fileName = cmdInput[1];
-                            string actionOnFile = cmdInput[2];
-
                             string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", fileName);
 
-                            switch (actionOnFile)
-                            {
-                                //                                case "-read":
-                                //                                    Commands.PrintFileProcesses(fullPath);
-                                //                                    break;
-
-                                //                                case "-launch":
-                                //.                                   Commands.LaunchFileProcesses(fullPath);
-                                //                                    break;
-
-
-                                case "-read":
-                                    Commands.PrintFileProcesses(fullPath);
-                                    break;
-                                case "-launch":
-                                    Commands.LaunchFileProcesses(fullPath);
-                                    break;
-                            }
-
-
-
-                        }
-                        else if (cmdInput.Length == 2)
-                        {
-                            string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", cmdInput[1]);
-                            Commands.PrintFileProcesses(fullPath);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Command not recognized.");
+                            Commands.LaunchFileProcesses(fullPath);
                         }
                         break;
                     case "help":

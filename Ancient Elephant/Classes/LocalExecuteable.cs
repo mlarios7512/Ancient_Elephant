@@ -9,38 +9,24 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
+using CsvHelper;
+using System.Globalization;
 
 namespace Ancient_Elephant.Classes
 {
     public class LocalExecutable
     {
-        private int launchIndex { get; set; }
-        private string fullPath { get; set; }
-        private string fileName { get; set; }
-        private bool markedToExecute { get; set; }
+        [Name("Process")]
+        public string ProcessName { get; set; }
 
-        public int LaunchIndex
-        {
-            get { return launchIndex; }
-            set { launchIndex = value; }
-        }
+        [Name("Filepath")]
+        public string FilePath { get; set; }
 
-        public string FullPath
-        {
-            get { return fullPath; }
-            set { fullPath = value; }
-        }
+        [Name("WindowSize")]
+        private string WindowSize { get; set; }
 
-        public string FileName
-        {
-            get { return fileName; }
-            set { fileName = value; }
-        }
-        public bool MarkedToExecute
-        {
-            get { return markedToExecute; }
-            set { markedToExecute = value; }
-        }
+        [Name("Execute")]
+        public bool MarkedToExecute { get; set; }
 
 
         public LocalExecutable() { }
@@ -50,37 +36,10 @@ namespace Ancient_Elephant.Classes
             Console.WriteLine($"--------------PROCESS INFO----------------" +
                 $"\n Name: {proc.ProcessName}" +
                 $"\n ID: {proc.Id}");
+           
         }
 
         //OLD VERSION (above)----------
-
-
-        public static void PrintLocalProcessesOnFile(List<LocalExecutable> executables)
-        {
-            int even = 0;
-            foreach (var exe in executables)
-            {
-                if (even % 2 == 0)
-                {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkYellow;
-                }
-
-                Console.WriteLine($"\n\n--------------PROCESS INFO----------------" +
-                $"\n Name: {exe.launchIndex}" +
-                $"\n Filename: {exe.FileName}" +
-                $"\n Full path: {exe.FullPath}" +
-                $"\n Marked to execute: {exe.MarkedToExecute} \n");
-                even++;
-            }
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-
-
 
         public static List<LocalExecutable> GetProcessesFromJsonFile(string fileName)
         {
@@ -102,6 +61,32 @@ namespace Ancient_Elephant.Classes
             return items;
         }
 
+        public static List<LocalExecutable> GetProcessesFromCSVFile(string fileName) 
+        {
+            List<LocalExecutable> items = new List<LocalExecutable>();
+            try
+            {
+                using (var streamReader = new StreamReader(fileName))
+                {
+                    using (var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                    {
+                        items = csvReader.GetRecords<LocalExecutable>().ToList();
+                    }
+                }
+            }
+            catch(IOException e) 
+            {
+                Console.WriteLine($"Error message: {e}");
+                items = new List<LocalExecutable>();
+            }
+            catch(CsvHelperException c) 
+            {
+                Console.WriteLine($"Error message: {c}");
+                items = new List<LocalExecutable>();
+            }
+            return items;
+        }
+
         /// <summary>
         /// Launch exes.
         /// </summary>
@@ -113,15 +98,10 @@ namespace Ancient_Elephant.Classes
             foreach (var exe in executables)
             {
                 st = new ProcessStartInfo();
-
-                st.WorkingDirectory = exe.FullPath;
-                st.FileName = exe.FileName;
-                Process.Start(exe.fileName, exe.FullPath);
-
-      
-
-         
-
+                st.UseShellExecute = true;
+                st.WorkingDirectory = exe.FilePath;
+                st.FileName = Path.Combine(exe.FilePath, exe.ProcessName);
+                Process.Start(st);
             }
         }
     }
