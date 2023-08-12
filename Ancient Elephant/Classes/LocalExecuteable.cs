@@ -11,6 +11,7 @@ using CsvHelper.Configuration;
 using CsvHelper.Configuration.Attributes;
 using CsvHelper;
 using System.Globalization;
+using Ancient_Elephant.Classes.Misc;
 
 namespace Ancient_Elephant.Classes
 {
@@ -74,14 +75,14 @@ namespace Ancient_Elephant.Classes
                     }
                 }
             }
-            catch(IOException e) 
+            catch (System.IO.IOException e)
             {
-                Console.WriteLine($"Error message: {e}");
+                PrettyConsole.ExeceptionError("Error reading process(es) from CSV:", e.Message);
                 items = new List<LocalExecutable>();
             }
-            catch(CsvHelperException c) 
+            catch(CsvHelperException e) 
             {
-                Console.WriteLine($"Error message: {c}");
+                PrettyConsole.ExeceptionError("Error reading process(es) from CSV:", e.Message);
                 items = new List<LocalExecutable>();
             }
             return items;
@@ -93,16 +94,81 @@ namespace Ancient_Elephant.Classes
         /// <param name="executables">A list of executables (their local files versions).</param>
         public static void LaunchLocalExecutables(List<LocalExecutable> executables)
         {
+            
             ProcessStartInfo st = null;
 
-            foreach (var exe in executables)
+            List<LocalExecutable> ProcsToExecute = executables.Where(e => e.MarkedToExecute == true).ToList();
+
+            Console.WriteLine("Launching processes...\n");
+            try
             {
-                st = new ProcessStartInfo();
-                st.UseShellExecute = true;
-                st.WorkingDirectory = exe.FilePath;
-                st.FileName = Path.Combine(exe.FilePath, exe.ProcessName);
-                Process.Start(st);
+                foreach (var exe in ProcsToExecute)
+                {
+                    st = new ProcessStartInfo();
+                    st.UseShellExecute = true;
+                    st.WorkingDirectory = exe.FilePath;
+
+                    //MAYBE USE in a more advanced version (below)------------------------
+                    //if (exe.FilePath == null) 
+                    //{
+
+                    //}
+                    //else 
+                    //{
+                    //    st.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\";
+                    //}
+                    //MAYBE USE in a more advanced version (above)------------------------
+                    st.FileName = exe.ProcessName;
+                    Process? ProcStartInfo = Process.Start(st);
+                    try 
+                    {
+                        if (ProcStartInfo == null)
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"The process {exe.ProcessName} failed to start\n");
+                            Console.ResetColor();
+                        }
+                    }
+                    catch(NullReferenceException e) 
+                    {
+                        PrettyConsole.ExeceptionError("An error starting process(es) from CSV:", e.Message);
+                    }
+
+
+                }
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Finished launching processes.\n");
+                Console.ResetColor();
             }
+            catch(System.IO.IOException e) 
+            {
+                PrettyConsole.ExeceptionError("Error starting process(es) from CSV:", e.Message);
+            }
+            catch (System.ComponentModel.Win32Exception e) 
+            {
+                PrettyConsole.ExeceptionError("Error starting process(es) from CSV:", e.Message);
+            }
+
+
+
+            List<LocalExecutable> ProcsToExeclude = executables.Where(e => e.MarkedToExecute == true).ToList();
+            if(ProcsToExeclude.Count >= 0) 
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("Process not executed (purposefully marked to be skipped in CSV):");
+                Console.ResetColor();
+                int skippedProcIndex = 0;
+                foreach(var skippedProc in ProcsToExeclude) 
+                {
+                    Console.WriteLine("{0,0}{1,30}", skippedProcIndex+1.ToString(), skippedProc.ProcessName);
+                    skippedProcIndex++;
+                }
+
+                Console.WriteLine();
+            }
+           
+
         }
     }
 }
