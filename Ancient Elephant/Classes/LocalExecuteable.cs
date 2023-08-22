@@ -129,6 +129,8 @@ namespace Ancient_Elephant.Classes
                             Console.WriteLine($"The process {exe.ProcessName} failed to start\n");
                             Console.ResetColor();
                         }
+                        PrintProcessInfo(ProcStartInfo);
+                        
                     }
                     catch(NullReferenceException e) 
                     {

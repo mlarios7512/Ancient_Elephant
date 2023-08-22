@@ -24,5 +24,15 @@ namespace Ancient_Elephant.Classes.Misc
             Console.Write($"{message}");
             Console.ForegroundColor = color;
         }
+
+        public static void WriteHelpKeyColor(string colorName, ConsoleColor keyColor, string commandDescription)
+        {
+            Console.ForegroundColor = keyColor;
+            Console.Write($"{colorName}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($" --> {commandDescription}\n");
+        }
+
+      
     }
 }

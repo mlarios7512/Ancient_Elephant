@@ -59,6 +59,9 @@ class Program
                         // code block
                         Commands.HelpCommand();
                         break;
+                    case "clear":
+                        Console.Clear();
+                        break;
                     default:
                         Console.WriteLine($"No command recognized. For a list of commands, type '--help'");
                         break;
