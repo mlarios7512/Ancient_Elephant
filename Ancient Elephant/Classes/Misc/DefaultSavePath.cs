@@ -15,13 +15,14 @@ namespace Ancient_Elephant.Classes.Misc
 
         public DefaultSavePath() { }
 
-        public static void LoadPreferredDirectoryFile() 
+        public static string LoadPreferredDirectoryFile() 
         {
             var pathOfSaveFile = Path.Combine(AppContext.BaseDirectory, "preferredDir.json");
             JObject? j = JObject.Parse(File.ReadAllText(pathOfSaveFile));
+            return (string)j.SelectToken("PreferredPath");
         }
 
-        public static void CheckForPreferredDir() 
+        public static string CheckForPreferredDirOnStartUp() 
         {
             try
             {
@@ -48,6 +49,7 @@ namespace Ancient_Elephant.Classes.Misc
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Preference saved.\n");
                     Console.ResetColor();
+                    return preferredDir;
                 }
                 else
                 {
@@ -58,6 +60,7 @@ namespace Ancient_Elephant.Classes.Misc
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Preferred directory loaded.\n");
                     Console.ResetColor();
+                    return defaultSaveFileName;
                 }
             }
             catch (System.UnauthorizedAccessException ex)
@@ -65,6 +68,7 @@ namespace Ancient_Elephant.Classes.Misc
                 PrettyConsole.ExeceptionError($"Error saving preferred directory. Run this tool as admin to enable saving of preferred directory:", ex.Message);
                 Console.WriteLine("You will need to to specify a preferred directory before using this tool. " +
                     "(See the 'help' command for how to do this.)");
+                return null;
             }
         }
     }

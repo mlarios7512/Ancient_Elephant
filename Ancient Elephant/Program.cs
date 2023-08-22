@@ -25,7 +25,13 @@ class Program
         Console.BackgroundColor = ConsoleColor.Black;
         Console.WriteLine("For a list of commands, type 'help'");
 
-        DefaultSavePath.CheckForPreferredDir();
+        string preferredDir = null;
+
+        preferredDir = DefaultSavePath.CheckForPreferredDirOnStartUp();
+        if(preferredDir == null) 
+        {
+            preferredDir = "(NONE)";
+        }
 
        
         while (true)
@@ -50,7 +56,8 @@ class Program
                         if (cmdInput.Length == 2)
                         {
                             string fileName = cmdInput[1];
-                            string fullPath = Path.Combine("C:\\Users\\User1\\Documents\\THE DUMP", fileName);
+                            //CHANGED FROM HARD CODED TO "preferredDir". NEED TESTING.
+                            string fullPath = Path.Combine(preferredDir, fileName);
 
                             Commands.LaunchFileProcesses(fullPath);
                         }
@@ -62,8 +69,14 @@ class Program
                     case "clear":
                         Console.Clear();
                         break;
+                    case "preferreddir":
+                        if (cmdInput[1] == "view")
+                        {
+                            Commands.ViewPreferredDir();
+                        }
+                        break;
                     default:
-                        Console.WriteLine($"No command recognized. For a list of commands, type '--help'");
+                        Console.WriteLine($"No command recognized. For a list of commands, type 'help'");
                         break;
                 }
             }

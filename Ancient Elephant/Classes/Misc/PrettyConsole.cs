@@ -33,6 +33,18 @@ namespace Ancient_Elephant.Classes.Misc
             Console.Write($" --> {commandDescription}\n");
         }
 
+        public static void WriteOptionsForCommand(List<(string, string)> options) 
+        {
+            Console.WriteLine("options:");
+            foreach(var op in options) 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write(op.Item1);
+                Console.ResetColor();
+                Console.WriteLine($": {op.Item2}");
+            }
+        }
+
       
     }
 }
