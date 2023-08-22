@@ -74,6 +74,10 @@ class Program
                         {
                             Commands.ViewPreferredDir();
                         }
+                        else if (cmdInput[1] == "change") 
+                        {
+                            preferredDir = Commands.ChangePreferredDir();
+                        }
                         break;
                     default:
                         Console.WriteLine($"No command recognized. For a list of commands, type 'help'");

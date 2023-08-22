@@ -34,6 +34,28 @@ namespace Ancient_Elephant.Classes
             }
         }
 
+        public static string ChangePreferredDir() 
+        {
+            string newPreferredDir = "(NONE)";
+            const string ErrorDir = "(NONE)";
+            try 
+            {
+                return DefaultSavePath.SaveNewPreferredDir();
+            }
+            catch(UnauthorizedAccessException e) 
+            {
+                PrettyConsole.ExeceptionError("Error saving preferred directory: ", e.Message);
+                Console.WriteLine("The preferred directory will only be active for this session.\n\n");
+                return ErrorDir;
+            }
+            catch (Exception e) 
+            {
+                PrettyConsole.ExeceptionError("Error saving preferred directory", e.Message);
+                Console.WriteLine("The preferred directory will only be active for this session.\n\n");
+                return ErrorDir;
+            }
+        }
+
         public static void HelpCommand()
         {
 

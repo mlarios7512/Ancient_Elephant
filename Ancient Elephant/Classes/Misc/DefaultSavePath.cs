@@ -22,6 +22,38 @@ namespace Ancient_Elephant.Classes.Misc
             return (string)j.SelectToken("PreferredPath");
         }
 
+        public static string SaveNewPreferredDir() 
+        {
+            const string defaultSaveFileName = "preferredDir.json";
+
+            //"AppContext.BaseDirectory" is where the directory of exe will be during the release version.
+            var fileToCheckFor = Path.Combine(AppContext.BaseDirectory, defaultSaveFileName);
+
+            try
+            {
+                Console.ResetColor();
+                Console.Write("Enter new preferred directory: ");
+                string newPreferredDir = Console.ReadLine();
+
+                DefaultSavePath defaultDirAsJSON = new DefaultSavePath()
+                {
+                    PreferredPath = newPreferredDir
+                };
+                string jsonResult = JsonConvert.SerializeObject(defaultDirAsJSON);
+
+                File.WriteAllText(Path.Combine(AppContext.BaseDirectory, defaultSaveFileName), jsonResult);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Preference saved.\n");
+                Console.ResetColor();
+                return newPreferredDir;
+            }
+            catch(System.UnauthorizedAccessException ex) 
+            {
+                PrettyConsole.ExeceptionError($"Error saving preferred directory: ", ex.Message);
+                return null;
+            }
+        }
+
         public static string CheckForPreferredDirOnStartUp() 
         {
             try
@@ -65,7 +97,7 @@ namespace Ancient_Elephant.Classes.Misc
             }
             catch (System.UnauthorizedAccessException ex)
             {
-                PrettyConsole.ExeceptionError($"Error saving preferred directory. Run this tool as admin to enable saving of preferred directory:", ex.Message);
+                PrettyConsole.ExeceptionError($"Error saving preferred directory: ", ex.Message);
                 Console.WriteLine("You will need to to specify a preferred directory before using this tool. " +
                     "(See the 'help' command for how to do this.)");
                 return null;
