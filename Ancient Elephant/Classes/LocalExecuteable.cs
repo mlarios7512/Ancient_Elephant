@@ -154,7 +154,7 @@ namespace Ancient_Elephant.Classes
 
 
 
-            List<LocalExecutable> ProcsToExeclude = executables.Where(e => e.MarkedToExecute == true).ToList();
+            List<LocalExecutable> ProcsToExeclude = executables.Where(e => e.MarkedToExecute == false).ToList();
             if(ProcsToExeclude.Count >= 0) 
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;

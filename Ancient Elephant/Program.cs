@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Linq.Expressions;
 using System.Collections.Immutable;
+using Ancient_Elephant.Classes.Misc;
+using System.Security.Permissions;
 
 class Program
 {
@@ -23,11 +25,51 @@ class Program
         Console.BackgroundColor = ConsoleColor.Black;
         Console.WriteLine("For a list of commands, type 'help'");
 
-        const string defaultFilePath = "C:\\Users\\User1\\Documents\\THE DUMP";
 
+ 
+        
+        //"AppContext.BaseDirectory" is where the directory of exe will be during the release version.
+        string saveFileLocationOfPreferredDir = AppContext.BaseDirectory;
 
+        try
+        {
+            const string defaultSaveFileName = "preferredDir.json";
+            var fileToCheckFor = Path.Combine(saveFileLocationOfPreferredDir, defaultSaveFileName);
+            //CHECK FOR DEFAULT FILE PATH
+            if (!File.Exists(fileToCheckFor)) 
+            {
+                //Create file
+                Console.ResetColor();
+                Console.Write($"No preferred directory found. Enter preferred directory: ");
+                string preferredDir = Console.ReadLine();
 
+                DefaultSavePath defaultDirAsJSON = new DefaultSavePath() 
+                { 
+                    Path = preferredDir
+                };
+                string jsonResult = JsonConvert.SerializeObject(defaultDirAsJSON);
 
+                File.WriteAllText(Path.Combine(preferredDir, defaultSaveFileName), jsonResult);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Preference saved.");
+                Console.ResetColor();
+
+            }
+            else 
+            {
+                //Load as preferred directory
+                Console.WriteLine("Preferred directory loaded");
+                
+            }
+
+        }
+        catch (System.UnauthorizedAccessException ex) 
+        {
+            PrettyConsole.ExeceptionError($"Error saving preferred directory. Run this tool as admin to enable saving of preferred directory:", ex.Message);
+            Console.WriteLine("You will need to to specify a preferred directory before using this tool. " +
+                "(See the 'help' command for how to do this.)");
+        }
+       
         while (true)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
