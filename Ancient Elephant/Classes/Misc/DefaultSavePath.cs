@@ -19,7 +19,8 @@ namespace Ancient_Elephant.Classes.Misc
         {
             var pathOfSaveFile = Path.Combine(AppContext.BaseDirectory, "preferredDir.json");
             JObject? j = JObject.Parse(File.ReadAllText(pathOfSaveFile));
-            return (string)j.SelectToken("PreferredPath");
+            string sanity = (string)j?.SelectToken("PreferredPath");
+            return sanity;
         }
 
         public static string SaveNewPreferredDir() 
@@ -86,13 +87,13 @@ namespace Ancient_Elephant.Classes.Misc
                 else
                 {
                     //Load as preferred directory
-                    LoadPreferredDirectoryFile();
+                    string preExistingPreference = LoadPreferredDirectoryFile();
 
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Preferred directory loaded.\n");
                     Console.ResetColor();
-                    return defaultSaveFileName;
+                    return preExistingPreference;
                 }
             }
             catch (System.UnauthorizedAccessException ex)

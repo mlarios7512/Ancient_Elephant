@@ -24,7 +24,7 @@ namespace Ancient_Elephant.Classes
         public string FilePath { get; set; }
 
         [Name("WindowSize")]
-        private string WindowSize { get; set; }
+        private string WindowPreferrence { get; set; }
 
         [Name("Execute")]
         public bool MarkedToExecute { get; set; }
@@ -108,7 +108,7 @@ namespace Ancient_Elephant.Classes
                     st.UseShellExecute = true;
                     st.WorkingDirectory = exe.FilePath;
 
-                    string windowSizeInput = exe.WindowSize.ToLower();
+                    string windowSizeInput = exe.WindowPreferrence.ToLower();
                     switch (windowSizeInput) 
                     {
                         case "max":

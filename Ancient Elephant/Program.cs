@@ -56,7 +56,7 @@ class Program
                         if (cmdInput.Length == 2)
                         {
                             string fileName = cmdInput[1];
-                            //CHANGED FROM HARD CODED TO "preferredDir". NEED TESTING.
+                            //CHANGED FROM HARD CODED TO "preferredDir". NEED TESTING.--- Something goes wrong within the command.
                             string fullPath = Path.Combine(preferredDir, fileName);
 
                             Commands.LaunchFileProcesses(fullPath);
@@ -86,43 +86,6 @@ class Program
             }
 
             //---------------------------CORE LOGIC OF LOOP (above)-------------------------------------------------
-
-
-            //const List<LocalExecutable> k = new List<LocalExecutable>();
-            //const Process process = new Process();
-            //Process[] pk = new Process[1];
-            //pk.ToImmutableArray();
-
-
-            //process.StartInfo.FileName = "C:\\Users\\User1\\Downloads\\winmine";
-            //process.Start();
-            //var info = process.HasExited;
-            //var j = process.StartTime;
-
-            //Console.WriteLine($"Has exited: {info}");
-            //Console.WriteLine($"Start time: {j}");
-
-
-            //Might want to stick with using "ProcessStartInfo" (it's much more potent).
-            //ProcessStartInfo st = new ProcessStartInfo();
-            //st.UseShellExecute = false; //If this is set to false, you must use the full path (aka "C:\Users\User1\Downloads\\winmine")
-            ////instead of "winmine" when inserting it in "Process.Start() as the parameter.
-            //st.WorkingDirectory = "C:\\Users\\User1\\Downloads\\";
-            //st.CreateNoWindow = false;
-            //st.FileName = "C:\\Users\\User1\\Downloads\\winmine";
-
-            //----------
-
-
-            //WARNING: You tried launching processes (specifically Powershell & Winmine). Powershell might be hidden in "Background Process"
-            //instead of "Apps" (when looking from Task Manager). WOULD RECOMMNED AVOIDING FURTHER USE OF WINDOW HIDING!
-            //st.UseShellExecute = true; //If this is set to false, you must use the full path (aka "C:\Users\User1\Downloads\\winmine")
-            ////instead of "winmine" when inserting it in "Process.Start() as the parameter.
-            //st.CreateNoWindow = false;
-            //st.FileName = "C:\\Users\\User1\\Downloads\\winmine";
-            //st.WindowStyle = ProcessWindowStyle.Maximized;
-
-            //---
 
         }
 
