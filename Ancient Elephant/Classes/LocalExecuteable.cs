@@ -34,8 +34,8 @@ namespace Ancient_Elephant.Classes
 
         public static void PrintProcessInfo(Process proc)
         {
-            Console.WriteLine($"--------------PROCESS INFO----------------" +
-                $"\n Name: {proc.ProcessName}" +
+            Console.WriteLine($"--------------{proc.ProcessName}----------------" +
+                $"\n Time started: {proc.StartTime}" +
                 $"\n ID: {proc.Id}");
            
         }
