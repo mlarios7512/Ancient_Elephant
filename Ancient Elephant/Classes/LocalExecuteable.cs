@@ -34,10 +34,11 @@ namespace Ancient_Elephant.Classes
 
         public static void PrintProcessInfo(Process proc)
         {
-            Console.WriteLine($"--------------{proc.ProcessName}----------------" +
-                $"\n Time started: {proc.StartTime}" +
-                $"\n ID: {proc.Id}");
-           
+            //Console.WriteLine($"--------------{proc.ProcessName}----------------" +
+            //    $"\n Time started: {proc.StartTime}" +
+            //    $"\n ID: {proc.Id}");
+
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", proc.ProcessName, proc.StartTime, proc.Id);
         }
 
         //OLD VERSION (above)----------
@@ -99,7 +100,8 @@ namespace Ancient_Elephant.Classes
 
             List<LocalExecutable> ProcsToExecute = executables.Where(e => e.MarkedToExecute == true).ToList();
 
-            Console.WriteLine("Launching processes...\n");
+            Console.WriteLine("Launching processes...\n\n");
+            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Process", "Start time", "Process ID");
             try
             {
                 foreach (var exe in ProcsToExecute)
