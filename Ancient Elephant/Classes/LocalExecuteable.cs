@@ -108,6 +108,24 @@ namespace Ancient_Elephant.Classes
                     st.UseShellExecute = true;
                     st.WorkingDirectory = exe.FilePath;
 
+                    string windowSizeInput = exe.WindowSize.ToLower();
+                    switch (windowSizeInput) 
+                    {
+                        case "max":
+                            st.WindowStyle = ProcessWindowStyle.Maximized;
+                            break;
+                        case "min":
+                            st.WindowStyle = ProcessWindowStyle.Minimized;
+                            break;
+                        case "hidden":
+                            st.WindowStyle = ProcessWindowStyle.Hidden;
+                            break;
+                        default:
+                            st.WindowStyle = ProcessWindowStyle.Normal;
+                            break;
+                    }
+                    
+
                     //MAYBE USE in a more advanced version (below)------------------------
                     //if (exe.FilePath == null) 
                     //{
