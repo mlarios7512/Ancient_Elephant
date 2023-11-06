@@ -1,4 +1,5 @@
 ﻿using Ancient_Elephant.Classes.Misc;
+using Ancient_Elephant.Classes.Misc.Messages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,7 +31,7 @@ namespace Ancient_Elephant.Classes
             }
             catch(Exception e) 
             {
-                PrettyConsole.ExeceptionError("Error viewing preferred directory:", e.Message);
+                ExceptionMessages.PrintError("Error viewing preferred directory:", e.Message);
             }
         }
 
@@ -44,13 +45,13 @@ namespace Ancient_Elephant.Classes
             }
             catch(UnauthorizedAccessException e) 
             {
-                PrettyConsole.ExeceptionError("Error saving preferred directory: ", e.Message);
+                ExceptionMessages.PrintError("Error saving preferred directory: ", e.Message);
                 Console.WriteLine("The preferred directory will only be active for this session.\n\n");
                 return ErrorDir;
             }
             catch (Exception e) 
             {
-                PrettyConsole.ExeceptionError("Error saving preferred directory", e.Message);
+                ExceptionMessages.PrintError("Error saving preferred directory", e.Message);
                 Console.WriteLine("The preferred directory will only be active for this session.\n\n");
                 return ErrorDir;
             }
@@ -80,10 +81,10 @@ namespace Ancient_Elephant.Classes
             Console.WriteLine("Clears the console.\n");
 
             //-------------------------------------------------
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("launchdir [directory path]");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Change the path of the directory that is read to launch the CSV files from.\n");
+            //Console.ForegroundColor = ConsoleColor.DarkYellow;
+            //Console.WriteLine("launchdir [directory path]");
+            //Console.ForegroundColor = ConsoleColor.White;
+            //Console.WriteLine("Change the path of the directory that is read to launch the CSV files from.\n");
 
             //-----------------------------------------------
             Console.ForegroundColor = ConsoleColor.DarkYellow;

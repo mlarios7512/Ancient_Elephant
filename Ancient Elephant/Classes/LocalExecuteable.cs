@@ -12,6 +12,7 @@ using CsvHelper.Configuration.Attributes;
 using CsvHelper;
 using System.Globalization;
 using Ancient_Elephant.Classes.Misc;
+using Ancient_Elephant.Classes.Misc.Messages;
 
 namespace Ancient_Elephant.Classes
 {
@@ -31,15 +32,6 @@ namespace Ancient_Elephant.Classes
 
 
         public LocalExecutable() { }
-
-        public static void PrintProcessInfo(Process proc)
-        {
-            //Console.WriteLine($"--------------{proc.ProcessName}----------------" +
-            //    $"\n Time started: {proc.StartTime}" +
-            //    $"\n ID: {proc.Id}");
-
-            Console.WriteLine("{0,-30}{1,-30}{2,-10}", proc.ProcessName, proc.StartTime, proc.Id);
-        }
 
         //OLD VERSION (above)----------
 
@@ -63,9 +55,14 @@ namespace Ancient_Elephant.Classes
             return items;
         }
 
+        /// <summary>
+        /// Get a list of processes from a CSV file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>A list of processes (using their local file versions)</returns>
         public static List<LocalExecutable> GetProcessesFromCSVFile(string fileName) 
         {
-            List<LocalExecutable> items = new List<LocalExecutable>();
+            List<LocalExecutable> items = new();
             try
             {
                 using (var streamReader = new StreamReader(fileName))
@@ -78,21 +75,21 @@ namespace Ancient_Elephant.Classes
             }
             catch (System.IO.IOException e)
             {
-                PrettyConsole.ExeceptionError("Error reading process(es) from CSV:", e.Message);
+                ExceptionMessages.PrintError("Error reading process(es) from CSV:", e.Message);
                 items = new List<LocalExecutable>();
             }
             catch(CsvHelperException e) 
             {
-                PrettyConsole.ExeceptionError("Error reading process(es) from CSV:", e.Message);
+                ExceptionMessages.PrintError("Error reading process(es) from CSV:", e.Message);
                 items = new List<LocalExecutable>();
             }
             return items;
         }
 
         /// <summary>
-        /// Launch exes.
+        /// Launch executables.
         /// </summary>
-        /// <param name="executables">A list of executables (their local files versions).</param>
+        /// <param name="executables">A list of executables (using their local files versions).</param>
         public static void LaunchLocalExecutables(List<LocalExecutable> executables)
         {
             
@@ -149,12 +146,12 @@ namespace Ancient_Elephant.Classes
                             Console.WriteLine($"The process {exe.ProcessName} failed to start\n");
                             Console.ResetColor();
                         }
-                        PrintProcessInfo(ProcStartInfo);
+                        RunExesInfoMessages.RunningProcInfo(ProcStartInfo);
                         
                     }
                     catch(NullReferenceException e) 
                     {
-                        PrettyConsole.ExeceptionError("An error starting process(es) from CSV:", e.Message);
+                        ExceptionMessages.PrintError("An error starting process(es) from CSV:", e.Message);
                     }
 
 
@@ -165,11 +162,11 @@ namespace Ancient_Elephant.Classes
             }
             catch(System.IO.IOException e) 
             {
-                PrettyConsole.ExeceptionError("Error starting process(es) from CSV:", e.Message);
+                ExceptionMessages.PrintError("Error starting process(es) from CSV:", e.Message);
             }
             catch (System.ComponentModel.Win32Exception e) 
             {
-                PrettyConsole.ExeceptionError("Error starting process(es) from CSV:", e.Message);
+                ExceptionMessages.PrintError("Error starting process(es) from CSV:", e.Message);
             }
 
 
@@ -177,17 +174,7 @@ namespace Ancient_Elephant.Classes
             List<LocalExecutable> ProcsToExeclude = executables.Where(e => e.MarkedToExecute == false).ToList();
             if(ProcsToExeclude.Count >= 0) 
             {
-                Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("Process not executed (purposefully marked to be skipped in CSV):");
-                Console.ResetColor();
-                int skippedProcIndex = 0;
-                foreach(var skippedProc in ProcsToExeclude) 
-                {
-                    Console.WriteLine("{0,0}{1,30}", skippedProcIndex+1.ToString(), skippedProc.ProcessName);
-                    skippedProcIndex++;
-                }
-
-                Console.WriteLine();
+                RunExesInfoMessages.ExcludedRunProcInfo(ProcsToExeclude);
             }
            
 

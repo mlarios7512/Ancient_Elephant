@@ -10,13 +10,19 @@ namespace Ancient_Elephant.Classes.Misc
 {
     public class PrettyConsole
     {
-        public static void ExeceptionError(string message, string execptionMessage) 
+        public static void StartLoopText()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\n{message}");
-            Console.ResetColor();
-            Console.WriteLine($"{execptionMessage}\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("Ancient Elephant: ");
+            Console.ForegroundColor = ConsoleColor.White;
         }
+        //public static void ExeceptionError(string message, string execptionMessage) 
+        //{
+        //    Console.ForegroundColor = ConsoleColor.Red;
+        //    Console.WriteLine($"\n{message}");
+        //    Console.ResetColor();
+        //    Console.WriteLine($"{execptionMessage}\n");
+        //}
 
         public static void HighlightText(bool post, string message, string uniqueText, ConsoleColor color) 
         {
@@ -44,7 +50,6 @@ namespace Ancient_Elephant.Classes.Misc
                 Console.WriteLine($": {op.Item2}");
             }
         }
-
       
     }
 }

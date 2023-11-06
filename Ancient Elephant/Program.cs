@@ -36,12 +36,7 @@ class Program
        
         while (true)
         {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.Write("Ancient Elephant: ");
-            Console.ForegroundColor = ConsoleColor.White;
-
-
-
+            PrettyConsole.StartLoopText();
 
             string cmdArg = Console.ReadLine();
 

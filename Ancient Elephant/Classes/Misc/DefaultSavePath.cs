@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Ancient_Elephant.Classes.Misc.Messages;
 
 namespace Ancient_Elephant.Classes.Misc
 {
@@ -32,8 +33,7 @@ namespace Ancient_Elephant.Classes.Misc
 
             try
             {
-                Console.ResetColor();
-                Console.Write("Enter new preferred directory: ");
+                SavePathMessages.EnterPreferredDir();
                 string newPreferredDir = Console.ReadLine();
 
                 DefaultSavePath defaultDirAsJSON = new DefaultSavePath()
@@ -43,14 +43,12 @@ namespace Ancient_Elephant.Classes.Misc
                 string jsonResult = JsonConvert.SerializeObject(defaultDirAsJSON);
 
                 File.WriteAllText(Path.Combine(AppContext.BaseDirectory, defaultSaveFileName), jsonResult);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Preference saved.\n");
-                Console.ResetColor();
+                SavePathMessages.SaveSucessful();
                 return newPreferredDir;
             }
             catch(System.UnauthorizedAccessException ex) 
             {
-                PrettyConsole.ExeceptionError($"Error saving preferred directory: ", ex.Message);
+                ExceptionMessages.PrintError($"Error saving preferred directory: ", ex.Message);
                 return null;
             }
         }
@@ -67,8 +65,7 @@ namespace Ancient_Elephant.Classes.Misc
                 if (!File.Exists(fileToCheckFor))
                 {
                     //Create file
-                    Console.ResetColor();
-                    Console.Write($"No preferred directory found. Enter preferred directory: ");
+                    SavePathMessages.NoPreferredDirFound();
                     string preferredDir = Console.ReadLine();
 
                     DefaultSavePath defaultDirAsJSON = new DefaultSavePath()
@@ -79,28 +76,20 @@ namespace Ancient_Elephant.Classes.Misc
 
 
                     File.WriteAllText(Path.Combine(AppContext.BaseDirectory, defaultSaveFileName), jsonResult);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Preference saved.\n");
-                    Console.ResetColor();
+                    SavePathMessages.SaveSucessful();
                     return preferredDir;
                 }
                 else
                 {
                     //Load as preferred directory
                     string preExistingPreference = LoadPreferredDirectoryFile();
-
-
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Preferred directory loaded.\n");
-                    Console.ResetColor();
+                    SavePathMessages.SaveSucessful();
                     return preExistingPreference;
                 }
             }
             catch (System.UnauthorizedAccessException ex)
             {
-                PrettyConsole.ExeceptionError($"Error saving preferred directory: ", ex.Message);
-                Console.WriteLine("You will need to to specify a preferred directory before using this tool. " +
-                    "(See the 'help' command for how to do this.)");
+                SavePathMessages.ErrorSaving(ex);
                 return null;
             }
         }
