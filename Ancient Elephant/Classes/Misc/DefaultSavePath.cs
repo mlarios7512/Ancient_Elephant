@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
 using Ancient_Elephant.Classes.Misc.Messages;
+using Ancient_Elephant.Classes.SavePaths;
+
 
 namespace Ancient_Elephant.Classes.Misc
 {
@@ -26,25 +29,12 @@ namespace Ancient_Elephant.Classes.Misc
 
         public static string SaveNewPreferredDir() 
         {
-            const string defaultSaveFileName = "preferredDir.json";
-
-            //"AppContext.BaseDirectory" is where the directory of exe will be during the release version.
-            var fileToCheckFor = Path.Combine(AppContext.BaseDirectory, defaultSaveFileName);
-
             try
             {
                 SavePathMessages.EnterPreferredDir();
-                string newPreferredDir = Console.ReadLine();
-
-                DefaultSavePath defaultDirAsJSON = new DefaultSavePath()
-                {
-                    PreferredPath = newPreferredDir
-                };
-                string jsonResult = JsonConvert.SerializeObject(defaultDirAsJSON);
-
-                File.WriteAllText(Path.Combine(AppContext.BaseDirectory, defaultSaveFileName), jsonResult);
+                string preferredDirectory = SavePathOps.CreatePrefDirFile();
                 SavePathMessages.SaveSucessful();
-                return newPreferredDir;
+                return preferredDirectory;
             }
             catch(System.UnauthorizedAccessException ex) 
             {
@@ -61,23 +51,11 @@ namespace Ancient_Elephant.Classes.Misc
 
                 //"AppContext.BaseDirectory" is where the directory of exe will be during the release version.
                 var fileToCheckFor = Path.Combine(AppContext.BaseDirectory, defaultSaveFileName);
-                //CHECK FOR DEFAULT FILE PATH
                 if (!File.Exists(fileToCheckFor))
                 {
                     //Create file
                     SavePathMessages.NoPreferredDirFound();
-                    string preferredDir = Console.ReadLine();
-
-                    DefaultSavePath defaultDirAsJSON = new DefaultSavePath()
-                    {
-                        PreferredPath = preferredDir
-                    };
-                    string jsonResult = JsonConvert.SerializeObject(defaultDirAsJSON);
-
-
-                    File.WriteAllText(Path.Combine(AppContext.BaseDirectory, defaultSaveFileName), jsonResult);
-                    SavePathMessages.SaveSucessful();
-                    return preferredDir;
+                    return SavePathOps.CreatePrefDirFile();
                 }
                 else
                 {

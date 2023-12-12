@@ -36,13 +36,10 @@ namespace Ancient_Elephant.Classes.Misc.Messages
         public static void ChangePrefDir()
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("preferreddir [option]");
+            Console.WriteLine("prefdir [option]");
             Console.ResetColor();
-            //List<(string, string)> options = new List<(string, string)>();
-            //(string, string) j = ("-view", "Show the current preferred directory.");
-            //(string, string) k = ("-view", "Show the current preferred directory.");
 
-            List<(string, string)> ops = new List<(string, string)>()
+            List<(string, string)> ops = new ()
             {
                 ("view", "Show the current preferred directory."),
                 ("change", "Change the current preferred directory")

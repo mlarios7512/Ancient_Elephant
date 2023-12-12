@@ -36,7 +36,7 @@ class Program
        
         while (true)
         {
-            PrettyConsole.StartLoopText();
+            PrettyConsole.InputPromptText();
 
             string cmdArg = Console.ReadLine();
 
@@ -64,7 +64,7 @@ class Program
                     case "clear":
                         Console.Clear();
                         break;
-                    case "preferreddir":
+                    case "prefdir":
                         if (cmdInput[1] == "view")
                         {
                             Commands.ViewPreferredDir();

@@ -16,10 +16,6 @@ namespace Ancient_Elephant.Classes
     {
         public static void LaunchFileProcesses(string fileName) 
         {
-            //List<LocalExecutable> exeList = LocalExecutable.GetProcessesFromJsonFile(fileName);
-            //LocalExecutable.LaunchLocalExecutables(exeList);
-
-            //--------
             List<LocalExecutable> exeList = LocalExecutable.GetProcessesFromCSVFile(fileName);
             LocalExecutable.LaunchLocalExecutables(exeList);
         }
@@ -64,8 +60,6 @@ namespace Ancient_Elephant.Classes
             HelpMessages.LaunchCommand();
             HelpMessages.ClearConsoleCommand();
             HelpMessages.ChangePrefDir();
-
-            //END OF COMMANDS LISTING---------------------
             Console.WriteLine("\n");
         }
 

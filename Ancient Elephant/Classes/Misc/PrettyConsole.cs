@@ -10,7 +10,7 @@ namespace Ancient_Elephant.Classes.Misc
 {
     public class PrettyConsole
     {
-        public static void StartLoopText()
+        public static void InputPromptText()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("Ancient Elephant: ");
@@ -39,7 +39,7 @@ namespace Ancient_Elephant.Classes.Misc
             Console.Write($" --> {commandDescription}\n");
         }
 
-        public static void WriteOptionsForCommand(List<(string, string)> options) 
+        public static void DisplayOptionsForCommand(List<(string, string)> options) 
         {
             Console.WriteLine("options:");
             foreach(var op in options) 
