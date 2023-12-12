@@ -19,14 +19,6 @@ namespace Ancient_Elephant.Classes.Misc
 
         public DefaultSavePath() { }
 
-        public static string LoadPreferredDirectoryFile() 
-        {
-            var pathOfSaveFile = Path.Combine(AppContext.BaseDirectory, "preferredDir.json");
-            JObject? j = JObject.Parse(File.ReadAllText(pathOfSaveFile));
-            string sanity = (string)j?.SelectToken("PreferredPath");
-            return sanity;
-        }
-
         public static string SaveNewPreferredDir() 
         {
             try
@@ -47,10 +39,10 @@ namespace Ancient_Elephant.Classes.Misc
         {
             try
             {
-                const string defaultSaveFileName = "preferredDir.json";
+                const string DefaultSaveFileName = "preferredDir.json";
 
                 //"AppContext.BaseDirectory" is where the directory of exe will be during the release version.
-                var fileToCheckFor = Path.Combine(AppContext.BaseDirectory, defaultSaveFileName);
+                var fileToCheckFor = Path.Combine(AppContext.BaseDirectory, DefaultSaveFileName);
                 if (!File.Exists(fileToCheckFor))
                 {
                     //Create file
@@ -60,7 +52,7 @@ namespace Ancient_Elephant.Classes.Misc
                 else
                 {
                     //Load as preferred directory
-                    string preExistingPreference = LoadPreferredDirectoryFile();
+                    string preExistingPreference = SavePathOps.LoadPreferredDirectoryFile();
                     SavePathMessages.SaveSucessful();
                     return preExistingPreference;
                 }

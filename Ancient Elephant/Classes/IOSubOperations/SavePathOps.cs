@@ -1,5 +1,6 @@
 ﻿using Ancient_Elephant.Classes.Misc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,14 @@ namespace Ancient_Elephant.Classes.SavePaths
             File.WriteAllText(Path.Combine(AppContext.BaseDirectory, DefaultSaveFileName), jsonResult);
 
             return newPreferredDir;
+        }
+
+        public static string LoadPreferredDirectoryFile()
+        {
+            var pathOfSaveFile = Path.Combine(AppContext.BaseDirectory, "preferredDir.json");
+            JObject? j = JObject.Parse(File.ReadAllText(pathOfSaveFile));
+            string sanity = (string)j?.SelectToken("PreferredPath");
+            return sanity;
         }
     }
 }
