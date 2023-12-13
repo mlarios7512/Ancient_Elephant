@@ -26,13 +26,5 @@ namespace Ancient_Elephant.Classes.SavePaths
 
             return newPreferredDir;
         }
-
-        public static string LoadPreferredDirectoryFile()
-        {
-            var pathOfSaveFile = Path.Combine(AppContext.BaseDirectory, "preferredDir.json");
-            JObject? j = JObject.Parse(File.ReadAllText(pathOfSaveFile));
-            string sanity = (string)j?.SelectToken("PreferredPath");
-            return sanity;
-        }
     }
 }

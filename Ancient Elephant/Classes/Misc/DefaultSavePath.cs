@@ -19,6 +19,14 @@ namespace Ancient_Elephant.Classes.Misc
 
         public DefaultSavePath() { }
 
+        public static string LoadPreferredDirectoryFile()
+        {
+            var pathOfSaveFile = Path.Combine(AppContext.BaseDirectory, "preferredDir.json");
+            JObject? j = JObject.Parse(File.ReadAllText(pathOfSaveFile));
+            string sanity = (string)j?.SelectToken("PreferredPath");
+            return sanity;
+        }
+
         public static string SaveNewPreferredDir() 
         {
             try
@@ -52,7 +60,7 @@ namespace Ancient_Elephant.Classes.Misc
                 else
                 {
                     //Load as preferred directory
-                    string preExistingPreference = SavePathOps.LoadPreferredDirectoryFile();
+                    string preExistingPreference = LoadPreferredDirectoryFile();
                     SavePathMessages.SaveSucessful();
                     return preExistingPreference;
                 }

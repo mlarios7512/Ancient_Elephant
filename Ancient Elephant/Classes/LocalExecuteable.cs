@@ -13,6 +13,8 @@ using CsvHelper;
 using System.Globalization;
 using Ancient_Elephant.Classes.Misc;
 using Ancient_Elephant.Classes.Misc.Messages;
+using Ancient_Elephant.Classes.SavePaths;
+using Ancient_Elephant.Classes.IOSubOperations;
 
 namespace Ancient_Elephant.Classes
 {
@@ -92,73 +94,30 @@ namespace Ancient_Elephant.Classes
         /// <param name="executables">A list of executables (using their local files versions).</param>
         public static void LaunchLocalExecutables(List<LocalExecutable> executables)
         {
-            
-            ProcessStartInfo st = null;
 
             List<LocalExecutable> ProcsToExecute = executables.Where(e => e.MarkedToExecute == true).ToList();
 
-            Console.WriteLine("Launching processes...\n\n");
-            Console.WriteLine("{0,-30}{1,-30}{2,-10}", "Process", "Start time", "Process ID");
+            RunExesInfoMessages.BeginExecutionAttempt();
             try
             {
                 foreach (var exe in ProcsToExecute)
                 {
-                    st = new ProcessStartInfo();
-                    st.UseShellExecute = true;
-                    st.WorkingDirectory = exe.FilePath;
-
-                    string windowSizeInput = exe.WindowSize.ToLower();
-                    switch (windowSizeInput) 
-                    {
-                        case "max":
-                            st.WindowStyle = ProcessWindowStyle.Maximized;
-                            break;
-                        case "min":
-                            st.WindowStyle = ProcessWindowStyle.Minimized;
-                            break;
-                        case "hidden":
-                            st.WindowStyle = ProcessWindowStyle.Hidden;
-                            break;
-                        default:
-                            st.WindowStyle = ProcessWindowStyle.Normal;
-                            break;
-                    }
-                    
-
-                    //MAYBE USE in a more advanced version (below)------------------------
-                    //if (exe.FilePath == null) 
-                    //{
-
-                    //}
-                    //else 
-                    //{
-                    //    st.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\";
-                    //}
-                    //MAYBE USE in a more advanced version (above)------------------------
-                    st.FileName = exe.ProcessName;
+                    ProcessStartInfo st = LaunchProcOps.CreateProcessStartInfoUsingCSVFields(exe);
                     Process? ProcStartInfo = Process.Start(st);
                     try 
                     {
                         if (ProcStartInfo == null)
                         {
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.BackgroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"The process {exe.ProcessName} failed to start\n");
-                            Console.ResetColor();
+                            ExceptionMessages.FailedProcessLaunch(exe);
                         }
-                        RunExesInfoMessages.RunningProcInfo(ProcStartInfo);
-                        
+                        RunExesInfoMessages.SuccessfullyRunningProcInfo(ProcStartInfo);
                     }
                     catch(NullReferenceException e) 
                     {
                         ExceptionMessages.PrintError("An error starting process(es) from CSV:", e.Message);
                     }
-
-
                 }
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Finished launching processes.\n");
-                Console.ResetColor();
+                RunExesInfoMessages.ExecutionAttemptsFinished();
             }
             catch(System.IO.IOException e) 
             {
@@ -168,7 +127,6 @@ namespace Ancient_Elephant.Classes
             {
                 ExceptionMessages.PrintError("Error starting process(es) from CSV:", e.Message);
             }
-
 
 
             List<LocalExecutable> ProcsToExeclude = executables.Where(e => e.MarkedToExecute == false).ToList();
