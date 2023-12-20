@@ -51,14 +51,12 @@ class Program
                         if (cmdInput.Length == 2)
                         {
                             string fileName = cmdInput[1];
-                            //CHANGED FROM HARD CODED TO "preferredDir". NEED TESTING.--- Something goes wrong within the command.
                             string fullPath = Path.Combine(preferredDir, fileName);
 
                             Commands.LaunchFileProcesses(fullPath);
                         }
                         break;
                     case "help":
-                        // code block
                         Commands.HelpCommand();
                         break;
                     case "clear":

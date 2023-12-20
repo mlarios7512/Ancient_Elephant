@@ -61,7 +61,7 @@ namespace Ancient_Elephant.Classes.Misc
                 {
                     //Load as preferred directory
                     string preExistingPreference = LoadPreferredDirectoryFile();
-                    SavePathMessages.SaveSucessful();
+                    SavePathMessages.LoadSuccessful();
                     return preExistingPreference;
                 }
             }

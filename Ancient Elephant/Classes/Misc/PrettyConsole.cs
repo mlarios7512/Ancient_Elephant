@@ -16,15 +16,8 @@ namespace Ancient_Elephant.Classes.Misc
             Console.Write("Ancient Elephant: ");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        //public static void ExeceptionError(string message, string execptionMessage) 
-        //{
-        //    Console.ForegroundColor = ConsoleColor.Red;
-        //    Console.WriteLine($"\n{message}");
-        //    Console.ResetColor();
-        //    Console.WriteLine($"{execptionMessage}\n");
-        //}
 
-        public static void HighlightText(bool post, string message, string uniqueText, ConsoleColor color) 
+        public static void HighlightText(string message, ConsoleColor color) 
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write($"{message}");

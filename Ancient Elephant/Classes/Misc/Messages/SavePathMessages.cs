@@ -8,6 +8,7 @@ namespace Ancient_Elephant.Classes.Misc.Messages
 {
     public class SavePathMessages
     {
+        const ConsoleColor SuccessIndication = ConsoleColor.Green;
         public static void EnterPreferredDir() 
         {
             Console.ResetColor();
@@ -15,8 +16,15 @@ namespace Ancient_Elephant.Classes.Misc.Messages
         }
         public static void SaveSucessful() 
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            Console.ForegroundColor = SuccessIndication;
             Console.WriteLine("Preference saved.\n");
+            Console.ResetColor();
+        }
+
+        public static void LoadSuccessful() 
+        {
+            Console.ForegroundColor = SuccessIndication;
+            Console.WriteLine("Preferred directory file loaded.\n");
             Console.ResetColor();
         }
 
